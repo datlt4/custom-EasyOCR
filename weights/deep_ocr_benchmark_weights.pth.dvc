@@ -1,0 +1,4 @@
+outs:
+- md5: c1ab1f0931a353046da80be0c4a186b1
+  size: 34048637
+  path: deep_ocr_benchmark_weights.pth

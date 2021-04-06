@@ -1,0 +1,4 @@
+outs:
+- md5: 3d48f83540567d2a43d2f6ca4b4d9f13
+  size: 1854124
+  path: craft_refiner_CTW1500.pth
