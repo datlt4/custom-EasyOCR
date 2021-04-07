@@ -18,7 +18,8 @@ import utils.deep_ocr_utils
 from collections import OrderedDict
 import imgaug as ia
 from imgaug.augmentables.polys import Polygon, PolygonsOnImage
-
+import matplotlib.pyplot as plt
+from uuid import uuid4
 
 def copyStateDict(state_dict):
     if list(state_dict.keys())[0].startswith("module"):
@@ -387,7 +388,7 @@ class Deep_OCR():
         i = 0
         flag = True
         while flag:
-            if len(images_ndarray) - i < self.config["batch_size"]:
+            if len(images_ndarray) - i <= self.config["batch_size"]:
                 batch = images_ndarray[i:]
                 flag = False
             else:
@@ -413,6 +414,7 @@ class Deep_OCR():
 
         return preds_str
 
+
 if __name__ == '__main__':
     config = {"trained_model": "weights/craft_mlt_25k.pth", "text_threshold": 0.7,
               "refiner_model": "weights/craft_refiner_CTW1500.pth",
@@ -429,17 +431,16 @@ if __name__ == '__main__':
     detector = CRAFT_Detector(config)
     deep_ocr = Deep_OCR(config)
 
-    from tqdm import tqdm
-
-    for img_path in tqdm(["000.jpg", "0012.jpg", "015.jpg", "413a756af9470b195256.jpg"]):
-        image = utils.imgproc.loadImage(img_path)
-        polys = detector.get_textbox(image)
-        line_text = crop_and_wrap_polys(image, polys)
-        preds_txt = deep_ocr.predict(line_text)
-        image_draw = utils.deep_ocr_utils.draw_ocr(image, polys, preds_txt)
-        show_polys(image_draw)
-
     import ipdb; ipdb.set_trace()
+
+    # for img_path in tqdm(["000.jpg", "0012.jpg", "015.jpg", "413a756af9470b195256.jpg"]):
+    image = utils.imgproc.loadImage("/home/m/Downloads/large-receipt-image-dataset-SRD/1106-receipt.jpg")
+    polys = detector.get_textbox(image)
+    line_text = crop_and_wrap_polys(image, polys)
+    preds_txt = deep_ocr.predict(line_text)
+    image_draw = utils.deep_ocr_utils.draw_ocr(image, polys, preds_txt)
+    show_polys(image_draw)
+
 
     # merged_list, free_list = detector.group_text_box(polys)
     # show_polys(image, polys)
