@@ -20,6 +20,7 @@ import imgaug as ia
 from imgaug.augmentables.polys import Polygon, PolygonsOnImage
 import matplotlib.pyplot as plt
 from uuid import uuid4
+from nltk.metrics.distance import edit_distance
 
 def copyStateDict(state_dict):
     if list(state_dict.keys())[0].startswith("module"):
